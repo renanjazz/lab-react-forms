@@ -3,6 +3,7 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import TableHeader from "./components/TableHeader";
 import StudentCard from "./components/StudentCard";
+
 import studentsData from "./assets/students.json";
 
 function App() {
@@ -12,17 +13,37 @@ function App() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [program, setProgram] = useState("");
-  const [graduationYear, setGraduationYear] = useState(2023);
+  const [graduationYear, setGraduationYear] = useState("");
   const [graduated, setGraduated] = useState(false);
 
-const handleFullNameInput = (event) => setFullName(event.target.value)
+  const handleAddStudent = (event) => {
+    event.preventDefault();
+    const newStudent = {
+      fullName: fullName,
+      image,
+      phone,
+      email,
+      program,
+      graduationYear,
+      graduated,
+    };
+    console.log("student added", newStudent);
+    setStudents([newStudent, ...students]);
+    setFullName('');
+    setImage('');
+    setPhone('');
+    setEmail('');
+    setProgram('');
+    setGraduationYear('2023');
+    setGraduated(false);
+  };
 
   return (
     <div className="App pt-20">
       <Navbar />
 
       {/* FORM */}
-      <form>
+      <form onSubmit={handleAddStudent}>
         <span>Add a Student</span>
         <div>
           <label>
@@ -30,11 +51,11 @@ const handleFullNameInput = (event) => setFullName(event.target.value)
             <input
               name="fullName"
               type="text"
+              placeholder="Full Name"
               value={fullName}
               onChange={(event) => {
                 setFullName(event.target.value);
               }}
-              placeholder="Full Name"
             />
           </label>
 
@@ -43,11 +64,11 @@ const handleFullNameInput = (event) => setFullName(event.target.value)
             <input
               name="image"
               type="url"
+              placeholder="Profile Image"
               value={image}
               onChange={(event) => {
                 setImage(event.target.value);
               }}
-              placeholder="Profile Image"
             />
           </label>
 
@@ -56,11 +77,11 @@ const handleFullNameInput = (event) => setFullName(event.target.value)
             <input
               name="phone"
               type="tel"
+              placeholder="Phone"
               value={phone}
               onChange={(event) => {
                 setPhone(event.target.value);
               }}
-              placeholder="Phone"
             />
           </label>
 
@@ -69,11 +90,11 @@ const handleFullNameInput = (event) => setFullName(event.target.value)
             <input
               name="email"
               type="email"
+              placeholder="Email"
               value={email}
               onChange={(event) => {
                 setEmail(event.target.value);
               }}
-              placeholder="Email"
             />
           </label>
         </div>
@@ -81,11 +102,13 @@ const handleFullNameInput = (event) => setFullName(event.target.value)
         <div>
           <label>
             Program
-            <select name="program" value={program}>
-              onChange=
-              {(event) => {
+            <select
+              name="program"
+              onChange={(event) => {
                 setProgram(event.target.value);
               }}
+              value={program}
+            >
               <option value="">-- None --</option>
               <option value="Web Dev">Web Dev</option>
               <option value="UXUI">UXUI</option>
@@ -98,15 +121,15 @@ const handleFullNameInput = (event) => setFullName(event.target.value)
             <input
               name="graduationYear"
               type="number"
-              value={graduationYear}
-              onChange={(event) => {
-                setGraduationYear(event.target.value);
-              }}
               placeholder="Graduation Year"
               minLength={4}
               maxLength={4}
               min={2023}
               max={2030}
+              value={graduationYear}
+              onChange={(event) => {
+                setGraduationYear(event.target.value);
+              }}
             />
           </label>
 
@@ -115,9 +138,9 @@ const handleFullNameInput = (event) => setFullName(event.target.value)
             <input
               name="graduated"
               type="checkbox"
-              checked={graduated}
-              onChange={(event) => {
-                setGraduated(event.target.checked);
+              value={graduated}
+              onChange={(e) => {
+                setGraduated(e.target.checked);
               }}
             />
           </label>
